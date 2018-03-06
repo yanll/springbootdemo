@@ -4,6 +4,7 @@ import com.cmp.study.springdemo.service.IIndexService;
 import com.cmp.study.springdemo.service.IUserService;
 import com.cmp.study.springdemo.service.IndexServiceImpl;
 import com.cmp.study.springdemo.service.UserServiceImpl;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,5 +20,12 @@ public class MyBeanConfiguration {
     public IIndexService indexService(IUserService userService) {
         userService.hello();
         return new IndexServiceImpl();
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean servletListenerRegistrationBean() {
+        ServletListenerRegistrationBean servletListenerRegistrationBean = new ServletListenerRegistrationBean();
+        servletListenerRegistrationBean.setListener(new InitListener());
+        return servletListenerRegistrationBean;
     }
 }
