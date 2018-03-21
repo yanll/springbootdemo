@@ -3,6 +3,7 @@ package com.cmp.study.springdemo.web;
 import com.yeepay.g3.facade.bankinfo.dto.AccInfoDTO;
 import com.yeepay.g3.facade.bankinfo.service.AccInfoMgrFacade;
 import com.yeepay.g3.facade.bankinfo.service.BankInfoQueryFacade;
+import com.yeepay.g3.facade.bankinfo.service.EnvFacade;
 import com.yeepay.g3.facade.remit.dto.BankCardParamsDTO;
 import com.yeepay.g3.facade.remit.dto.RemitRequestParamsDTO;
 import com.yeepay.g3.facade.remit.enumtype.AccountTypeEnum;
@@ -99,7 +100,6 @@ public class TestController {
     }
 
     @ApiOperation("根据省份编码查询城市列表信息")
-
     @RequestMapping(value = "/queryCity/{province_code}", method = RequestMethod.GET)
     public Object queryCity(@ApiParam("省份代码") @PathVariable("province_code") String province_code) {
         BankInfoQueryFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, BankInfoQueryFacade.class);
@@ -116,6 +116,13 @@ public class TestController {
         dto.setBranchBankName("d");
         dto.setAccNo("150801117087");
         return p.studyAccInfoOne(dto);
+    }
+
+    @ApiOperation("REDIS缓存测试")
+    @RequestMapping(value = "/redis_value/{key}", method = RequestMethod.GET)
+    public Object getRedisValue(@PathVariable("key") String key) {
+        EnvFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, EnvFacade.class);
+        return p.getRedisValue(key);
     }
 
 }
