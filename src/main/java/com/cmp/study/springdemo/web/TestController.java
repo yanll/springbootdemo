@@ -4,12 +4,7 @@ import com.yeepay.g3.facade.bankinfo.dto.AccInfoDTO;
 import com.yeepay.g3.facade.bankinfo.service.AccInfoMgrFacade;
 import com.yeepay.g3.facade.bankinfo.service.BankInfoQueryFacade;
 import com.yeepay.g3.facade.bankinfo.service.EnvFacade;
-import com.yeepay.g3.facade.remit.dto.BankCardParamsDTO;
-import com.yeepay.g3.facade.remit.dto.RemitRequestParamsDTO;
-import com.yeepay.g3.facade.remit.enumtype.AccountTypeEnum;
-import com.yeepay.g3.facade.remit.enumtype.CurrencyTypeEnum;
-import com.yeepay.g3.facade.remit.enumtype.RemitFailModeEnum;
-import com.yeepay.g3.facade.remit.service.RemitTransactionFacade;
+import com.yeepay.g3.facade.remit.service.RemitScheduleFacade;
 import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
 import com.yeepay.g3.utils.rmi.RemotingProtocol;
 import io.swagger.annotations.Api;
@@ -20,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by YANLL on 2018/03/14.
@@ -32,32 +28,17 @@ import java.math.BigDecimal;
 public class TestController {
 
 
-    @RequestMapping(value = "/launchRemitRequest", method = RequestMethod.GET)
-    public String launchRemitRequest() {
-        String url = "http://10.151.31.60:8067/remit-hessian/hessian";
-        RemitTransactionFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitTransactionFacade.class);
-        RemitRequestParamsDTO remitRequestParamsDTO = new RemitRequestParamsDTO();
-        remitRequestParamsDTO.setRemitRequestNo(System.currentTimeMillis() + "");
-        remitRequestParamsDTO.setAccountType(AccountTypeEnum.TO_PRIVATE);
-        remitRequestParamsDTO.setCurrencyType(CurrencyTypeEnum.RMB);
-        remitRequestParamsDTO.setOwnerSys("2GWTJS");
-        remitRequestParamsDTO.setTradeInitiator("WITHDRAW");
-        remitRequestParamsDTO.setAmount(new BigDecimal("0.03"));
-        remitRequestParamsDTO.setUrgent(false);
-        remitRequestParamsDTO.setFailMode(RemitFailModeEnum.REMIT_FIRST_TRY);
-        remitRequestParamsDTO.setAutoRemit(false);
-        remitRequestParamsDTO.setNotifyAddress("REDIRECT:HTTP:9999");
-        remitRequestParamsDTO.setCustomerNo("20040008197");
-        remitRequestParamsDTO.setBankRemark("备注信息");
-        BankCardParamsDTO bankCardParamsDTO = new BankCardParamsDTO();
-        bankCardParamsDTO.setOpenAccountName("商户1111111");
-        bankCardParamsDTO.setCardNo("6216261000000000000");
-        bankCardParamsDTO.setBankName("广发银行");
-        bankCardParamsDTO.setBankNo("GDB");
-        bankCardParamsDTO.setProvince("01");
-        bankCardParamsDTO.setCity("01");
-        remitRequestParamsDTO.setBankCard(bankCardParamsDTO);
-        p.launchRemitRequest(remitRequestParamsDTO);
+    @RequestMapping(value = "/autoCreateUrgentRemitBatches", method = RequestMethod.GET)
+    public String autoCreateUrgentRemitBatches() {
+        String url = "http://127.0.0.1:8067/remit-hessian/hessian";
+        RemitScheduleFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitScheduleFacade.class);
+        List<String> list = new ArrayList<>();
+        list.add("2GWTJS_1519799061292");
+        list.add("2GWTJS_1519799061885");
+        list.add("2GWTJS_1519805406924");
+        list.add("2GWTJS_1519805408172");
+        list.add("2GWTJS_1519805680652");
+        p.autoCreateUrgentRemitBatches(list);
         return null;
     }
 
