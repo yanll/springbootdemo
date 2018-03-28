@@ -1,10 +1,8 @@
 package com.cmp.study.springdemo.web;
 
 import com.yeepay.g3.facade.bankinfo.dto.AccInfoDTO;
-import com.yeepay.g3.facade.bankinfo.service.AccInfoMgrFacade;
 import com.yeepay.g3.facade.bankinfo.service.BankInfoQueryFacade;
 import com.yeepay.g3.facade.bankinfo.service.EnvFacade;
-import com.yeepay.g3.facade.remit.service.RemitScheduleFacade;
 import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
 import com.yeepay.g3.utils.rmi.RemotingProtocol;
 import io.swagger.annotations.Api;
@@ -14,9 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by YANLL on 2018/03/14.
@@ -28,6 +23,29 @@ import java.util.List;
 public class TestController {
 
 
+    @RequestMapping(value = "/printEnv", method = RequestMethod.GET)
+    public String printEnv() {
+        EnvFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, EnvFacade.class);
+        p.printEnv();
+        return null;
+    }
+
+    @RequestMapping(value = "/clearrediscache", method = RequestMethod.GET)
+    public String clearrediscache() {
+        EnvFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, EnvFacade.class);
+        p.clearrediscache();
+        return null;
+    }
+
+    @ApiOperation("REDIS缓存测试")
+    @RequestMapping(value = "/redis_value/{key}", method = RequestMethod.GET)
+    public Object getRedisValue(@PathVariable("key") String key) {
+        EnvFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, EnvFacade.class);
+        return p.getRedisValue(key);
+    }
+
+
+    /*
     @RequestMapping(value = "/autoCreateUrgentRemitBatches", method = RequestMethod.GET)
     public String autoCreateUrgentRemitBatches() {
         String url = "http://127.0.0.1:8067/remit-hessian/hessian";
@@ -41,13 +59,7 @@ public class TestController {
         p.autoCreateUrgentRemitBatches(list);
         return null;
     }
-
-    @RequestMapping(value = "/printEnv/{clearrediscache}/{pattern}", method = RequestMethod.GET)
-    public String printEnv(@PathVariable("clearrediscache") String clearrediscache, @PathVariable("pattern") String pattern) {
-        AccInfoMgrFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, AccInfoMgrFacade.class);
-        p.printEnv(clearrediscache, pattern);
-        return null;
-    }
+    */
 
     @RequestMapping(value = "/queryHeadBankByCode/{bank_code}", method = RequestMethod.GET)
     public Object queryHeadBankByCode(@PathVariable("bank_code") String bank_code) {
@@ -61,6 +73,7 @@ public class TestController {
         return p.queryBranchBankByCode(branch_code);
     }
 
+    //天津农村商业银行股份有限公司蓟县侯家营支行 402110013752
     @RequestMapping(value = "/queryBranchBank/{bank_code}/{province_code}/{city_code}", method = RequestMethod.GET)
     public Object queryBranchBank(@PathVariable("bank_code") String bank_code, @PathVariable("province_code") String province_code, @PathVariable("city_code") String city_code) {
         BankInfoQueryFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, BankInfoQueryFacade.class);
@@ -97,13 +110,6 @@ public class TestController {
         dto.setBranchBankName("d");
         dto.setAccNo("150801117087");
         return p.studyAccInfoOne(dto);
-    }
-
-    @ApiOperation("REDIS缓存测试")
-    @RequestMapping(value = "/redis_value/{key}", method = RequestMethod.GET)
-    public Object getRedisValue(@PathVariable("key") String key) {
-        EnvFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, EnvFacade.class);
-        return p.getRedisValue(key);
     }
 
 }
