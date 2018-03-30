@@ -75,32 +75,29 @@ public class TestController {
     public String req() {
         String url = "http://127.0.0.1:8067/remit-hessian/hessian";
         RemitTransactionFacade r = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitTransactionFacade.class);
-        for (int i = 1; i < 2; i++) {
-            String[] array = new String[]{"150801117087", "加急分流改造" + i, "1" + i, "01", "01"};
-            RemitRequestParamsDTO remitRequestParamsDTO = new RemitRequestParamsDTO();
-            remitRequestParamsDTO.setRemitRequestNo(System.currentTimeMillis() + "");//打款请求号  remitRequestNo
-            remitRequestParamsDTO.setAccountType(AccountTypeEnum.TO_PRIVATE);// 账户类型  accountType
-            remitRequestParamsDTO.setCurrencyType(CurrencyTypeEnum.RMB);//币种  currencyType
-            remitRequestParamsDTO.setOwnerSys("2GWTJS");
-            remitRequestParamsDTO.setTradeInitiator("TRANSFEXT");
-            remitRequestParamsDTO.setAmount(new BigDecimal(array[2]));//请求金额  amount
-            remitRequestParamsDTO.setUrgent(true);
-            remitRequestParamsDTO.setRemitType("");
-            remitRequestParamsDTO.setCustomerNo("20040008157");
-            remitRequestParamsDTO.setAutoRemit(true);
-            remitRequestParamsDTO.setAppointmentChannel("JSB_SECOND_PRI");// JSB_SECOND_PRI 江苏秒到   EGBANK_CUP_PRI 恒丰
-            remitRequestParamsDTO.setFailMode(RemitFailModeEnum.REMIT_FIRST_TRY);
-            remitRequestParamsDTO.setNotifyAddress("redirect:http://10.151.32.27:30118/accounting-boss/remit/receiveRemitResult");
-            BankCardParamsDTO bankCardParamsDTO = new BankCardParamsDTO();
-            bankCardParamsDTO.setOpenAccountName(array[1]);//开户人  openAccountName
-            bankCardParamsDTO.setCardNo(array[0]);//收款卡号  cardNo
-            bankCardParamsDTO.setBankName("工商银行");//银行名称  bankName
-            bankCardParamsDTO.setBankNo("ABC");//银行编号  bankNo
-            bankCardParamsDTO.setProvince(array[3]);
-            bankCardParamsDTO.setCity(array[4]);
-            remitRequestParamsDTO.setBankCard(bankCardParamsDTO);
-            r.launchRemitRequest(remitRequestParamsDTO);
-        }
+        RemitRequestParamsDTO remitRequestParamsDTO = new RemitRequestParamsDTO();
+        remitRequestParamsDTO.setRemitRequestNo(System.currentTimeMillis() + "");//打款请求号  remitRequestNo
+        remitRequestParamsDTO.setAccountType(AccountTypeEnum.TO_PRIVATE);// 账户类型  accountType
+        remitRequestParamsDTO.setCurrencyType(CurrencyTypeEnum.RMB);//币种  currencyType
+        remitRequestParamsDTO.setOwnerSys("2GWTJS");
+        remitRequestParamsDTO.setTradeInitiator("TRANSFEXT");
+        remitRequestParamsDTO.setAmount(new BigDecimal("10000"));//请求金额  amount
+        remitRequestParamsDTO.setUrgent(true);
+        remitRequestParamsDTO.setRemitType("");
+        remitRequestParamsDTO.setCustomerNo("20040008157");
+        remitRequestParamsDTO.setAutoRemit(true);
+        remitRequestParamsDTO.setAppointmentChannel("JSB_SECOND_PRI");// JSB_SECOND_PRI 江苏秒到   EGBANK_CUP_PRI 恒丰
+        remitRequestParamsDTO.setFailMode(RemitFailModeEnum.REMIT_FIRST_TRY);
+        remitRequestParamsDTO.setNotifyAddress("redirect:http://10.151.32.27:30118/accounting-boss/remit/receiveRemitResult");
+        BankCardParamsDTO bankCardParamsDTO = new BankCardParamsDTO();
+        bankCardParamsDTO.setOpenAccountName("YAN");//开户人  openAccountName
+        bankCardParamsDTO.setCardNo("6225990944345555");//收款卡号  cardNo
+        bankCardParamsDTO.setBankName("工商银行");//银行名称  bankName
+        bankCardParamsDTO.setBankNo("ABC");//银行编号  bankNo
+        bankCardParamsDTO.setProvince("01");
+        bankCardParamsDTO.setCity("01");
+        remitRequestParamsDTO.setBankCard(bankCardParamsDTO);
+        r.launchRemitRequest(remitRequestParamsDTO);
         return null;
     }
 
