@@ -140,15 +140,15 @@ public class TestController {
         return p.queryCity(province_code);
     }
 
-    @RequestMapping(value = "/studyAccInfoOne", method = RequestMethod.GET)
-    public Object studyAccInfoOne() {
+    @RequestMapping(value = "/studyAccInfoOne/{province_code}/{city_code}/{bank_code}/{branch_code}/{acc_no}", method = RequestMethod.GET)
+    public Object studyAccInfoOne(@PathVariable("province_code") String province_code, @PathVariable("city_code") String city_code, @PathVariable("bank_code") String bank_code, @PathVariable("branch_code") String branch_code, @PathVariable("acc_no") String acc_no) {
         BankInfoQueryFacade p = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, BankInfoQueryFacade.class);
         AccInfoDTO dto = new AccInfoDTO();
-        dto.setCity("328");
-        dto.setProvince("328");
-        dto.setBankNo("328");
-        dto.setBranchBankName("328");
-        dto.setAccNo("328");
+        if (!"null".equals(province_code)) dto.setProvince(province_code);
+        if (!"null".equals(city_code)) dto.setCity(city_code);
+        if (!"null".equals(bank_code)) dto.setBankNo(bank_code);
+        if (!"null".equals(branch_code)) dto.setBranchBankName(branch_code);
+        if (!"null".equals(acc_no)) dto.setAccNo(acc_no);
         return p.studyAccInfoOne(dto);
     }
 
