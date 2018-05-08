@@ -73,17 +73,19 @@ public class TestController {
 
     @RequestMapping(value = "/req", method = RequestMethod.GET)
     public String req() {
-        String url = "http://127.0.0.1:8067/remit-hessian/hessian";
+        String url = "http://10.151.31.60:8067/remit-hessian/hessian";
         RemitTransactionFacade r = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitTransactionFacade.class);
         RemitRequestParamsDTO remitRequestParamsDTO = new RemitRequestParamsDTO();
-        remitRequestParamsDTO.setRemitRequestNo(System.currentTimeMillis() + "");//打款请求号  remitRequestNo
+        long s = System.currentTimeMillis();
+        System.out.println(s);
+        remitRequestParamsDTO.setRemitRequestNo(s + "");//打款请求号  remitRequestNo
         remitRequestParamsDTO.setAccountType(AccountTypeEnum.TO_PRIVATE);// 账户类型  accountType
         remitRequestParamsDTO.setCurrencyType(CurrencyTypeEnum.RMB);//币种  currencyType
         remitRequestParamsDTO.setOwnerSys("2GWTJS");
         remitRequestParamsDTO.setTradeInitiator("TRANSFEXT");
         remitRequestParamsDTO.setAmount(new BigDecimal("10000"));//请求金额  amount
         remitRequestParamsDTO.setUrgent(true);
-        remitRequestParamsDTO.setRemitType("");
+        remitRequestParamsDTO.setRemitType("1");
         remitRequestParamsDTO.setCustomerNo("20040008157");
         remitRequestParamsDTO.setAutoRemit(true);
         remitRequestParamsDTO.setAppointmentChannel("JSB_SECOND_PRI");// JSB_SECOND_PRI 江苏秒到   EGBANK_CUP_PRI 恒丰
@@ -92,12 +94,28 @@ public class TestController {
         BankCardParamsDTO bankCardParamsDTO = new BankCardParamsDTO();
         bankCardParamsDTO.setOpenAccountName("YAN");//开户人  openAccountName
         bankCardParamsDTO.setCardNo("6225990944345555");//收款卡号  cardNo
-        bankCardParamsDTO.setBankName("工商银行");//银行名称  bankName
-        bankCardParamsDTO.setBankNo("ABC");//银行编号  bankNo
-        bankCardParamsDTO.setProvince("01");
-        bankCardParamsDTO.setCity("01");
+        bankCardParamsDTO.setBankName("江苏银行");
+        bankCardParamsDTO.setBankNo("JSBC");//银行编号  bankNo
+        bankCardParamsDTO.setProvince("03");
+        bankCardParamsDTO.setCity("03");
         remitRequestParamsDTO.setBankCard(bankCardParamsDTO);
         r.launchRemitRequest(remitRequestParamsDTO);
+
+        return null;
+    }
+
+    @RequestMapping(value = "/rec", method = RequestMethod.GET)
+    public String rec() {
+        String url = "http://10.151.31.60:8067/remit-hessian/hessian";
+        url = "http://127.0.0.1:8067/remit-hessian/hessian";
+
+        RemitScheduleFacade r_ = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitScheduleFacade.class);
+        //r_.autoReconcileSecondsTo(10, 1, new String[]{"EGBC_YBT_SECOND_PRI", "JSB_SECOND_PRI", "CBHB_YBT_D0S0_PRI"}, 200);
+        List<Long> list = new ArrayList<>();
+        list.add(1281747L);
+        r_.generateManualAddRemitBatch(list);
+
+
         return null;
     }
 
