@@ -8,6 +8,7 @@ import com.yeepay.g3.facade.remit.dto.RemitRequestParamsDTO;
 import com.yeepay.g3.facade.remit.enumtype.AccountTypeEnum;
 import com.yeepay.g3.facade.remit.enumtype.CurrencyTypeEnum;
 import com.yeepay.g3.facade.remit.enumtype.RemitFailModeEnum;
+import com.yeepay.g3.facade.remit.service.RemitManagementFacade;
 import com.yeepay.g3.facade.remit.service.RemitScheduleFacade;
 import com.yeepay.g3.facade.remit.service.RemitTransactionFacade;
 import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
@@ -116,6 +117,17 @@ public class TestController {
         r_.generateManualAddRemitBatch(list);
 
 
+        return null;
+    }
+
+    @RequestMapping(value = "/yf/{pid}", method = RequestMethod.GET)
+    public String yf(@PathVariable("pid") Long pid) {
+        String url = "http://10.151.31.60:8067/remit-hessian/hessian";
+        url = "http://127.0.0.1:8067/remit-hessian/hessian";
+
+        RemitManagementFacade r_ = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitManagementFacade.class);
+
+        r_.confirmDealRemitProcessYeepayFaild(pid, "打款撤销", "SUBMIT_FAILURE", "lly");
         return null;
     }
 
