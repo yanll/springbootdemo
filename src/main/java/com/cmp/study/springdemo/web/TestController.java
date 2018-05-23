@@ -11,6 +11,8 @@ import com.yeepay.g3.facade.remit.enumtype.RemitFailModeEnum;
 import com.yeepay.g3.facade.remit.service.RemitManagementFacade;
 import com.yeepay.g3.facade.remit.service.RemitScheduleFacade;
 import com.yeepay.g3.facade.remit.service.RemitTransactionFacade;
+import com.yeepay.g3.facade.trade.bankinterface.nocard.BankInterfaceNoCardFacade;
+import com.yeepay.g3.facade.trade.bankinterface.nocard.result.CardBinResultDTO;
 import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
 import com.yeepay.g3.utils.rmi.RemotingProtocol;
 import io.swagger.annotations.Api;
@@ -180,6 +182,14 @@ public class TestController {
         if (!"null".equals(branch_code)) dto.setBranchBankName(branch_code);
         if (!"null".equals(acc_no)) dto.setAccNo(acc_no);
         return p.studyAccInfoOne(dto);
+    }
+
+    @RequestMapping(value = "/getCardBinInfo/{acc_no}", method = RequestMethod.GET)
+    public Object getCardBinInfo(@PathVariable("acc_no") String acc_no) {
+        BankInterfaceNoCardFacade b = RemoteServiceFactory.getService(RemotingProtocol.HESSIAN, BankInterfaceNoCardFacade.class);
+        List<CardBinResultDTO> l = b.getALLCardBinInfos();
+        CardBinResultDTO r = b.getCardBinInfo(acc_no);
+        return r;
     }
 
 }
