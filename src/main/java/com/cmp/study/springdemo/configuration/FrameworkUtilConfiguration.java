@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({MyBeanConfiguration.class,ConsolePermissionCongfiguration.class})
+@Import({MyBeanConfiguration.class})
 public class FrameworkUtilConfiguration {
 
 }
