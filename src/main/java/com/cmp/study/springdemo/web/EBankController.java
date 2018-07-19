@@ -1,9 +1,6 @@
 package com.cmp.study.springdemo.web;
 
-import com.yeepay.g3.facade.remit.ebank.dto.QueryRemitBankResultDTO;
-import com.yeepay.g3.facade.remit.ebank.dto.RemitBankInfoParamDTO;
-import com.yeepay.g3.facade.remit.ebank.dto.RemitBankParamDTO;
-import com.yeepay.g3.facade.remit.ebank.dto.RemitBankResultDTO;
+import com.yeepay.g3.facade.remit.ebank.dto.*;
 import com.yeepay.g3.facade.remit.ebank.service.RemitEBankFacade;
 import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
 import com.yeepay.g3.utils.rmi.RemotingProtocol;
@@ -64,7 +61,17 @@ public class EBankController {
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
         remitBankInfoParamDTO.setRemitBankId("BANK20180712");
         return p.queryYeePayBalance(remitBankInfoParamDTO);
+    }
 
+    @RequestMapping(value = "/downloadAccountFile", method = RequestMethod.GET)
+    public DownloadAccountFileResponseDTO downloadAccountFile() {
+        String url = "http://10.151.32.27:30020/remit-ebank-hessian/hessian/RemitEBankFacade";
+        url = "http://localhost:30020/remit-ebank-hessian/hessian";
+        RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
+        RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        DownloadAccountFileRequestDTO downloadAccountFileRequestDTO = new DownloadAccountFileRequestDTO();
+        return p.downloadAccountFile(remitBankInfoParamDTO, downloadAccountFileRequestDTO);
     }
 
 
