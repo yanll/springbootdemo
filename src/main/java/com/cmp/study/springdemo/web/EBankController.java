@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by YANLL on 2018/03/14.
@@ -24,8 +26,8 @@ import java.util.Date;
 public class EBankController {
 
 
-    @RequestMapping(value = "/bankRemit", method = RequestMethod.POST)
-    public RemitBankResultDTO bankRemit(@RequestBody(required = false) RemitBankParamDTO remitBankParamDTO) {
+    @RequestMapping(value = "/batchBankRemit", method = RequestMethod.POST)
+    public BatchRemitBankResultDTO batchBankRemit(@RequestBody(required = false) RemitBankParamDTO remitBankParamDTO) {
         String url = "http://10.151.32.27:30020/remit-ebank-hessian/hessian/RemitEBankFacade";
         url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
@@ -34,11 +36,25 @@ public class EBankController {
         remitBankParamDTO.setRemitFlowNo("REMIT_FLOW_" + DateUtil.formatDate(new Date(), "yyMMddHHmmss"));
         remitBankParamDTO.setRecAmount(new BigDecimal(66.88));
         remitBankParamDTO.setRemark("imremark");
+        remitBankParamDTO.setRecProvinceCode("01");
+        remitBankParamDTO.setRecCityCode("01");
+        remitBankParamDTO.setBankNo("GD");
+        remitBankParamDTO.setBankName("光大");
+        remitBankParamDTO.setRecBankCode("GD001");
+        remitBankParamDTO.setRecBankName("光大001");
+        remitBankParamDTO.setPostscript("Postscript");
+        remitBankParamDTO.setRecBankCode("RC");
+        remitBankParamDTO.setRecBankCode("RCNAME");
         if (remitBankParamDTO.getRecAccountNo() == null || remitBankParamDTO.getRecAccountName() == null) {
             remitBankParamDTO.setRecAccountNo("6221558812340000");
             remitBankParamDTO.setRecAccountName("互联网");
         }
-        return p.bankRemit(remitBankInfoParamDTO, remitBankParamDTO);
+        BatchRemitBankParamDTO batchRemitBankParamDTO = new BatchRemitBankParamDTO();
+        batchRemitBankParamDTO.setBatchNo("B" + remitBankParamDTO.getRemitFlowNo());
+        List<RemitBankParamDTO> list = new ArrayList<>();
+        list.add(remitBankParamDTO);
+        batchRemitBankParamDTO.setRemitBankParamDTOList(list);
+        return p.batchBankRemit(remitBankInfoParamDTO, batchRemitBankParamDTO);
 
     }
 
@@ -50,7 +66,16 @@ public class EBankController {
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
         remitBankInfoParamDTO.setRemitBankId("BANK20180712");
         return p.queryBankRemitSingle(remitBankInfoParamDTO, flowno);
+    }
 
+    @RequestMapping(value = "/queryBankRemitBatch", method = RequestMethod.GET)
+    public BatchQueryRemitBankResultDTO queryBankRemitBatch(String batchno) {
+        String url = "http://10.151.32.27:30020/remit-ebank-hessian/hessian/RemitEBankFacade";
+        url = "http://localhost:30020/remit-ebank-hessian/hessian";
+        RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
+        RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        return p.queryBankRemitBatch(remitBankInfoParamDTO, batchno);
     }
 
     @RequestMapping(value = "/queryYeePayBalance", method = RequestMethod.GET)
