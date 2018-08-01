@@ -6,6 +6,7 @@
     <groupId>com.yanll.study</groupId>
     <artifactId>springbootdemo</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -41,7 +42,7 @@
         </dependency>
 
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.yeepay.g3.utils</groupId>
             <artifactId>yeepay-soa</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -73,7 +74,7 @@
             <artifactId>remit-ebank-facade</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
 
 
     </dependencies>
@@ -93,6 +94,9 @@
     </pluginRepositories>
 
     <build>
+
+        <finalName>springboot</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
