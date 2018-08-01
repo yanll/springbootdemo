@@ -18,11 +18,11 @@
     <!-- Add typical dependencies for a web application -->
     <dependencies>
 
-        <dependency>
+        <!--<dependency>
             <groupId>tk.techforge</groupId>
             <artifactId>patron</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
