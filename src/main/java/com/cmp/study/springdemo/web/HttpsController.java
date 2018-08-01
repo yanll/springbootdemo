@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class HttpsController {
     @RequestMapping(value = "/rec", method = RequestMethod.POST)
     public String rec() {
-        return "OK";
+        return "rec ok";
+    }
+
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    public String ping() {
+        return "ping ok!";
     }
 }
