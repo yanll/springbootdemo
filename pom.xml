@@ -18,11 +18,17 @@
     <!-- Add typical dependencies for a web application -->
     <dependencies>
 
-        <!--<dependency>
+        <dependency>
             <groupId>tk.techforge</groupId>
             <artifactId>patron</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
+
+        <dependency>
+            <groupId>com.yanll.frameworks</groupId>
+            <artifactId>frameworks-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -42,7 +48,7 @@
         </dependency>
 
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.yeepay.g3.utils</groupId>
             <artifactId>yeepay-soa</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -73,8 +79,7 @@
             <groupId>com.yeepay.g3.facade.remit.ebank</groupId>
             <artifactId>remit-ebank-facade</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>-->
+        </dependency>
 
 
     </dependencies>

@@ -16,8 +16,8 @@ public class InitListener extends org.springframework.web.context.ContextLoaderL
         logger.info("init components!");
         String appname = event.getServletContext().getInitParameter("soa_app_name");
         logger.info(appname + " contextInitialized.");
-        /*com.yeepay.g3.utils.config.ConfigurationUtils.init();
-        com.yeepay.g3.utils.rmi.RemoteServiceFactory.init();*/
+        com.yeepay.g3.utils.config.ConfigurationUtils.init();
+        com.yeepay.g3.utils.rmi.RemoteServiceFactory.init();
 
     }
 
@@ -25,7 +25,7 @@ public class InitListener extends org.springframework.web.context.ContextLoaderL
     public void contextDestroyed(ServletContextEvent event) {
         logger.info("destory components!");
         try {
-//            com.yeepay.g3.utils.config.ConfigurationUtils.destory();
+            com.yeepay.g3.utils.config.ConfigurationUtils.destory();
         } catch (Throwable e) {
             logger.error("destor components error : " + e.getMessage(), e);
         }
