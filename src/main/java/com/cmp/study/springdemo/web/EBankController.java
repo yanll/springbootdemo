@@ -80,8 +80,8 @@ public class EBankController {
 
     @RequestMapping(value = "/queryYeePayBalance", method = RequestMethod.GET)
     public BigDecimal queryYeePayBalance() {
-        String url = "http://10.151.32.27:30020/remit-ebank-hessian/hessian/RemitEBankFacade";
-        url = "http://localhost:30020/remit-ebank-hessian/hessian";
+        String url = "http://10.151.32.44:30020/remit-ebank-hessian/hessian";
+        // url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
         remitBankInfoParamDTO.setRemitBankId("BANK20180712");
