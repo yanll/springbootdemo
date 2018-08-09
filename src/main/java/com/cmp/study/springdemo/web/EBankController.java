@@ -32,7 +32,7 @@ public class EBankController {
         url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
-        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712DF");
         remitBankParamDTO.setRemitFlowNo("REMIT_FLOW_" + DateUtil.formatDate(new Date(), "yyMMddHHmmss"));
         remitBankParamDTO.setRecAmount(new BigDecimal(66.88));
         remitBankParamDTO.setRemark("imremark");
@@ -64,7 +64,7 @@ public class EBankController {
         url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
-        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712DF");
         return p.queryBankRemitSingle(remitBankInfoParamDTO, flowno);
     }
 
@@ -74,17 +74,17 @@ public class EBankController {
         url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
-        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712DF");
         return p.queryBankRemitBatch(remitBankInfoParamDTO, batchno);
     }
 
     @RequestMapping(value = "/queryYeePayBalance", method = RequestMethod.GET)
     public BigDecimal queryYeePayBalance() {
         String url = "http://10.151.32.44:30020/remit-ebank-hessian/hessian";
-        // url = "http://localhost:30020/remit-ebank-hessian/hessian";
+        url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
-        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712DF");
         return p.queryYeePayBalance(remitBankInfoParamDTO);
     }
 
@@ -94,7 +94,7 @@ public class EBankController {
         url = "http://localhost:30020/remit-ebank-hessian/hessian";
         RemitEBankFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, RemitEBankFacade.class);
         RemitBankInfoParamDTO remitBankInfoParamDTO = new RemitBankInfoParamDTO();
-        remitBankInfoParamDTO.setRemitBankId("BANK20180712");
+        remitBankInfoParamDTO.setRemitBankId("BANK20180712DF");
         DownloadAccountFileRequestDTO downloadAccountFileRequestDTO = new DownloadAccountFileRequestDTO();
         return p.downloadAccountFile(remitBankInfoParamDTO, downloadAccountFileRequestDTO);
     }
