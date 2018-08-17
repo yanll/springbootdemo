@@ -18,11 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class BankController {
 
 
-    @RequestMapping(value = "/downloadDZDByBankInfoId", method = RequestMethod.POST)
+    @RequestMapping(value = "/downloadDZDByBankInfoIdAndDate", method = RequestMethod.POST)
     public void downloadDZDByBankInfoIdAndDate(String date) {
         String url = "http://10.151.31.59:8055/remit-bank-hessian/hessian";
         GuangdaUnionpayFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, GuangdaUnionpayFacade.class);
         p.downloadDZDByBankInfoIdAndDate("BANK20170712DF", date);
+    }
+
+    @RequestMapping(value = "/downloadDZDByBankInfoId", method = RequestMethod.POST)
+    public void downloadDZDByBankInfoId(String date) {
+        String url = "http://10.151.31.59:8055/remit-bank-hessian/hessian";
+        GuangdaUnionpayFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, GuangdaUnionpayFacade.class);
+        p.downloadDZDByBankInfoId("BANK20170712DF");
+    }
+
+    @RequestMapping(value = "/ls", method = RequestMethod.POST)
+    public String ls(String path) {
+        String url = "http://10.151.31.59:8055/remit-bank-hessian/hessian";
+        GuangdaUnionpayFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, GuangdaUnionpayFacade.class);
+        return p.ls(path);
     }
 
 
