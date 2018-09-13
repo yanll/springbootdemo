@@ -18,12 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class RemitController {
 
 
-    @RequestMapping(value = "/remitReTryForUnionpayZ23", method = RequestMethod.GET)
-    public String remitReTryForUnionpayZ23(String channel_type, String start_time, String end_time) {
-        String url = "";
-        url = "http://localhost:8014/remit-hessian/hessian";
+    @RequestMapping(value = "/dz", method = RequestMethod.GET)
+    public String dz(String start_time, String end_time) {
+        String url = "http://10.151.30.191:8083/remit-hessian/hessian";
+        //url = "http://localhost:8083/remit-hessian/hessian";
         StoreEncryptFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, StoreEncryptFacade.class);
-        p.remitReTryForUnionpayZ23("remit-hessian", channel_type, start_time, end_time);
+        p.remitReTryForUnionpayZ23("remit-hessian", "DZ", start_time, end_time);
+        return "OK";
+    }
+
+    @RequestMapping(value = "/df", method = RequestMethod.GET)
+    public String df(String start_time, String end_time) {
+        String url = "http://10.151.30.191:8083/remit-hessian/hessian";
+        //url = "http://localhost:8083/remit-hessian/hessian";
+        StoreEncryptFacade p = RemoteServiceFactory.getService(url, RemotingProtocol.HESSIAN, StoreEncryptFacade.class);
+        p.remitReTryForUnionpayZ23("remit-hessian", "DF", start_time, end_time);
         return "OK";
     }
 
