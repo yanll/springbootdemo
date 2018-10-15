@@ -19,6 +19,6 @@ public class WebAppRootContext implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         servletContext.addListener(WebAppRootListener.class);
-        servletContext.setInitParameter("soa_app_name", "bankinfo-hessian");
+        servletContext.setInitParameter("soa_app_name", "springbootdemo");
     }
 }

@@ -53,46 +53,10 @@
             <version>2.7.0</version>
         </dependency>
 
-
         <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-soa</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-rmi</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.yeepay.g3.facade.bankinfo</groupId>
-            <artifactId>bankinfo-facade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yeepay.g3.facade.remit</groupId>
-            <artifactId>remit-facade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yeepay.g3.trade</groupId>
-            <artifactId>bankinterface-nocard-facade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yeepay.g3.facade.remit.ebank</groupId>
-            <artifactId>remit-ebank-facade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yeepay.g3.facade.remit.bank</groupId>
-            <artifactId>remit-bank-facade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
 
     </dependencies>
 
