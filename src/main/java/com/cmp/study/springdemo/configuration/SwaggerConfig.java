@@ -1,3 +1,4 @@
+/*
 package com.cmp.study.springdemo.configuration;
 
 import org.springframework.context.annotation.Bean;
@@ -9,10 +10,6 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-/**
- * Created by YANLL on 2017/03/20.
- */
 
 @Configuration
 @EnableSwagger2
@@ -35,3 +32,4 @@ public class SwaggerConfig {
 
 
 }
+*/

@@ -1,21 +1,24 @@
 package com.cmp.study.springdemo.service;
 
 import com.cmp.study.springdemo.bean.Permission;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
 public class MyInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
-    private org.slf4j.Logger LOG = LoggerFactory.getLogger(getClass());
+    private final static Logger logger = LoggerFactory.getLogger(MyInvocationSecurityMetadataSource.class);
 
 
     /**
@@ -36,13 +39,18 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
                 resourceMap.put(resource.getUrl(), configAttributes);
             }
         }
-        LOG.info("security info load success!!");
+        logger.info("security info load success!!");
     }
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         if (resourceMap == null) loadResourceDefine();
-        String requestUrl = ((FilterInvocation) object).getRequestUrl();
+        FilterInvocation filterInvocation = (FilterInvocation) object;
+        HttpServletRequest request = filterInvocation.getRequest();
+        Class classzz = request.getClass();
+
+        RequestMapping annotation = request.getClass().getAnnotation(RequestMapping.class);
+        String requestUrl = filterInvocation.getRequestUrl();
         Collection<ConfigAttribute> c = resourceMap.get(requestUrl);
         return c;
     }

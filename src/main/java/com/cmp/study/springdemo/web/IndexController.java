@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
+
 /**
  * Created by YANLL on 2016/03/30.
  */
@@ -37,28 +39,25 @@ public class IndexController {
             }
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(authentication);
-
-            return "redirect:/main";
+            return "login success!";
         }
-        if (true) throw new RuntimeException("ssssssssssssss");
-        return "/login";
-
+        return "/login?error";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout() {
-        return "this is logout page.";
-    }
-
+    @PermitAll
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String hello() {
         return "this is main page.";
     }
 
-
-    @RequestMapping("/menu")
+    @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public String menu() {
         return "this is menu page.";
+    }
+
+    @RequestMapping(value = "/ignore", method = RequestMethod.GET)
+    public String ignore() {
+        return "this is ignore page.";
     }
 
 }

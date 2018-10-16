@@ -1,7 +1,6 @@
 package com.cmp.study.springdemo.configuration;
 
 import com.cmp.study.springdemo.service.CustomUserService;
-import com.cmp.study.springdemo.service.LoginSuccessHandler;
 import com.cmp.study.springdemo.service.MyFilterSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -45,15 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagge‌​r-ui.html").permitAll()//swagger
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .successHandler(loginSuccessHandler())
-                .and()
-                .logout()
-                .permitAll();
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().permitAll();
         http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
 
     }
@@ -67,12 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserService).passwordEncoder(passwordEncoder());
-    }
-
-
-    @Bean
-    public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
     }
 
 
