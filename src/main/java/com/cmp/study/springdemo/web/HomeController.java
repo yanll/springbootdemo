@@ -44,20 +44,4 @@ public class IndexController {
         return "/login?error";
     }
 
-    @PermitAll
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String hello() {
-        return "this is main page.";
-    }
-
-    @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menu() {
-        return "this is menu page.";
-    }
-
-    @RequestMapping(value = "/ignore", method = RequestMethod.GET)
-    public String ignore() {
-        return "this is ignore page.";
-    }
-
 }
