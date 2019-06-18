@@ -79,7 +79,7 @@
 
     <build>
 
-        <finalName>springboot</finalName>
+        <finalName>springbootdemo</finalName>
 
         <plugins>
             <plugin>
@@ -107,22 +107,26 @@
                 </executions>
             </plugin>
 
+            <!--
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.2.0</version>
-                <configuration>
-                    <imageName>techforge/springbootdemo:1.0.1</imageName>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/apps</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                            <imageName>techforge/springbootdemo:1.0.3</imageName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+            -->
 
 
         </plugins>
