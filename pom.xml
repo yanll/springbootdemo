@@ -6,7 +6,7 @@
     <groupId>tk.techforge</groupId>
     <artifactId>springbootdemo</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <dependencyManagement>
         <dependencies>
