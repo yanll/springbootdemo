@@ -5,6 +5,6 @@ ENV app_name springbootdemo
 #RUN yum -y install git
 #RUN yum -y install apache-maven
 RUN mkdir -m 755 -p /apps/
-ADD springbootdemo/target/springbootdemo.jar /apps/springbootdemo.jar
+#ADD springbootdemo/target/springbootdemo.jar /apps/springbootdemo.jar
 
-ENTRYPOINT /apps/springbootdemo/bin/start.sh
+#ENTRYPOINT /apps/springbootdemo/bin/start.sh
