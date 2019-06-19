@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tk.techforge.springdemo.entity.HomeVO;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by YANLL on 2016/03/30.
  */
@@ -20,7 +22,8 @@ public class HomeController {
 
     @ApiOperation("主页")
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public HomeVO home() {
+    public HomeVO home(HttpServletRequest request) {
+        System.out.println(request.getHeader("host"));
         HomeVO homeVO = new HomeVO();
         homeVO.setName("hello");
         return homeVO;
