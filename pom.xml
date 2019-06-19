@@ -79,8 +79,39 @@
 
     <build>
 
-        <finalName>springbootdemo</finalName>
+        <finalName>${project.artifactId}</finalName>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>1.2.0</version>
+                    <executions>
+                        <execution>
+                            <id>build-image</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                            <configuration>
+                                <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                                <imageName>${project.groupId}/${project.artifactId}:${project.version}</imageName>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <resources>
+                            <rescource>
+                                <targetPath>/</targetPath>
+                                <directory>${project.build.directory}</directory>
+                                <include>${project.build.finalName}.jar</include>
+                            </rescource>
+                        </resources>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -107,27 +138,10 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.0</version>
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <dockerDirectory>${project.basedir}/docker</dockerDirectory>
-                            <imageName>techforge/springbootdemo:1.0.3</imageName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
 
         </plugins>
+
+
     </build>
 
 
