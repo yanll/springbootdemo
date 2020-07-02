@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import tk.techforge.springdemo.configuration.FrameworkUtilConfiguration;
 
 
 /**
@@ -14,16 +13,9 @@ import tk.techforge.springdemo.configuration.FrameworkUtilConfiguration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(
-        basePackageClasses = {
-                SwaggerConfig.class,
-                FrameworkUtilConfiguration.class
-        },
-        basePackages = {"tk.techforge.springdemo.web"})
+@ComponentScan(basePackageClasses = {}, basePackages = {"tk.techforge.springdemo"})
 @Slf4j
 public class SBDApplication {
-
-
     public static void main(String[] args) {
         SpringApplication.run(SBDApplication.class, args);
     }

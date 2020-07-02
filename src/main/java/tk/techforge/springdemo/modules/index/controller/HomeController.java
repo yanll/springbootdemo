@@ -1,11 +1,11 @@
-package tk.techforge.springdemo.web;
+package tk.techforge.springdemo.modules.index.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import tk.techforge.springdemo.entity.HomeVO;
+import tk.techforge.springdemo.modules.index.bean.HomeVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
