@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tk.techforge.springdemo.modules.user.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="tk.techforge.springdemo.modules.user.bean.User">
+        <id column="id" property="id" />
+        <result column="migrate_user_id" property="migrateUserId" />
+        <result column="migrate_source" property="migrateSource" />
+        <result column="migrate_params" property="migrateParams" />
+        <result column="login_name" property="loginName" />
+        <result column="organization_id" property="organizationId" />
+        <result column="password" property="password" />
+        <result column="shasalt" property="shasalt" />
+        <result column="username" property="username" />
+        <result column="user_type" property="userType" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="user_status" property="userStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="host_user" property="hostUser" />
+        <result column="hire_type" property="hireType" />
+    </resultMap>
+
+</mapper>
