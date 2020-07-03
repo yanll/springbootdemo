@@ -65,7 +65,7 @@ public class ${table.controllerName} {
     @DeleteMapping("/delete/{id}")
     public ResponseMsg delete(@PathVariable("id") Serializable id) {
         boolean result = ${serviceInstanceName}.removeById(id);
-        return new ResponseMsg(HttpStatus.OK, "删除成功！",result);
+        return new ResponseMsg(HttpStatus.OK, "删除成功！", result);
     }
 
     @GetMapping("/get")

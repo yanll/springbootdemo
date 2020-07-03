@@ -46,7 +46,7 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseMsg delete(@PathVariable("id") Serializable id) {
         boolean result = userService.removeById(id);
-        return new ResponseMsg(HttpStatus.OK, "删除成功！",result);
+        return new ResponseMsg(HttpStatus.OK, "删除成功！", result);
     }
 
     @GetMapping("/get")
