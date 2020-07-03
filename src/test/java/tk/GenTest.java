@@ -9,8 +9,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.google.common.base.CaseFormat;
-import com.google.common.base.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,8 @@ public class GenTest extends Base {
     private static final boolean GenDTO = true;
     private static final boolean GenService = true;
     private static final boolean GenController = true;
+    private static final String pkg = "tk.techforge.springdemo";
+    private static final String pkg_filepath = "/src/main/java/tk/techforge/springdemo";
 
 
     @Autowired
@@ -93,7 +93,7 @@ public class GenTest extends Base {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("tk.techforge.springdemo.modules");
+        pc.setParent(pkg + ".modules");
         pc.setModuleName(module);
         pc.setEntity("bean");
         mpg.setPackageInfo(pc);
@@ -106,7 +106,7 @@ public class GenTest extends Base {
         String dto_flag = "DTO";
         Map<String, Object> params = new HashMap<>();
         params.put("dto_flag", dto_flag);
-        params.put("dto_package", "tk.techforge.springdemo.modules." + module + ".bean");
+        params.put("dto_package", pkg + ".modules." + module + ".bean");
 
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
@@ -124,7 +124,7 @@ public class GenTest extends Base {
             list.add(new FileOutConfig(dto_tmp_path) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
-                    return projectPath + "/src/main/java/tk/techforge/springdemo/modules/" + module + "/bean/" + tableInfo.getEntityName() + dto_flag + StringPool.DOT_JAVA;
+                    return projectPath + pkg_filepath + "/modules/" + module + "/bean/" + tableInfo.getEntityName() + dto_flag + StringPool.DOT_JAVA;
                 }
             });
         }
