@@ -1,10 +1,12 @@
 package tk.techforge.springdemo.configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Slf4j
 public class InitBeanConfiguration {
 
 

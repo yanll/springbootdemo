@@ -1,4 +1,4 @@
-package tk.techforge.springdemo.modules.index.bean;
+package tk.techforge.springdemo.commons;
 
 import lombok.Getter;
 import lombok.Setter;
