@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class GenTest extends Base {
 
     private static final boolean GenDTO = true;
     private static final boolean GenService = true;
+    private static final boolean GenController = true;
 
 
     @Autowired
@@ -36,15 +39,19 @@ public class GenTest extends Base {
 
     @Test
     public void gen() {
-        generate("user", "tbl_", "tbl_user");
+        generate("tbl_", "user", "tbl_user");
     }
 
     /**
-     * @param module      模块
      * @param tablePrefix 表名前缀（用于生成的实体消除前缀）
+     * @param module      生成模块的目录名
      * @param tableNames  表名
      */
-    private void generate(String module, String tablePrefix, String... tableNames) {
+    private void generate(String tablePrefix, String module, String... tableNames) {
+        if (module == null || module.length() == 0) {
+            System.out.println("模块不能为空！");
+            return;
+        }
         if (tableNames == null || tableNames.length == 0) {
             System.out.println("没有生成！");
             return;
@@ -109,6 +116,7 @@ public class GenTest extends Base {
             }
         };
         String entity_tmp_path = "/templates/mybatisplus/entity.java.vm.my";
+        String controller_tmp_path = "/templates/mybatisplus/controller.java.my.vm";
         if (GenDTO) {
             String dto_tmp_path = "/templates/mybatisplus/dto.java.vm.my";
 
@@ -132,13 +140,16 @@ public class GenTest extends Base {
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.setXml(null);
+        templateConfig.setEntity(entity_tmp_path);
+        templateConfig.setController(controller_tmp_path);
         if (!GenService) {
             templateConfig.setService(null);
             templateConfig.setServiceImpl(null);
         }
-        templateConfig.setController(null);
-        templateConfig.setXml(null);
-        templateConfig.setEntity(entity_tmp_path);
+        if (!GenController) {
+            templateConfig.setController(null);
+        }
         mpg.setTemplate(templateConfig);
 
         // 策略配置
