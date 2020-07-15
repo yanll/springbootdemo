@@ -4,3 +4,8 @@ spring:
     url: jdbc:mysql://10.151.11.224:3316/yuia?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     username: yuia
     password: yuia1234
+
+
+zookeeper:
+  namespace: caffeine-test
+  address: 10.151.30.71:2181
