@@ -4,12 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.cache.ChildData;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
+import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tk.techforge.springdemo.commons.cache.ZKClient;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author: YANLL
@@ -49,10 +53,43 @@ public class ZKConfiguration {
         return client;
     }
 
+    //    @ConditionalOnBean(value = CuratorFramework.class, name = "zkClient")
     @Bean(name = "zkClient")
-    public ZKClient zkClient(@Autowired CuratorFramework curatorFramework) {
+    public ZKClient zkClient() {
         log.info("Init ZKClient");
-        return new ZKClient(curatorFramework);
+        return new ZKClient();
+    }
+
+    @Bean(name = "treeCacheListener")
+    public TreeCacheListener treeCacheListener() {
+        TreeCacheListener listener = new TreeCacheListener() {
+            @Override
+            public void childEvent(CuratorFramework client, TreeCacheEvent event) {
+                try {
+                    ChildData data = event.getData();
+                    if (data == null) {
+                        log.info("数据为空");
+                        return;
+                    }
+                    switch (event.getType()) {
+                        case NODE_ADDED:
+                            log.info("[TreeCache]节点增加, path={}, data={}", data.getPath(), new String(data.getData(), "UTF-8"));
+                            break;
+                        case NODE_UPDATED:
+                            log.info("[TreeCache]节点更新, path={}, data={}", data.getPath(), new String(data.getData(), "UTF-8"));
+                            break;
+                        case NODE_REMOVED:
+                            log.info("[TreeCache]节点删除, path={}, data={}", data.getPath(), new String(data.getData(), "UTF-8"));
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException("监听器创建失败！", e);
+                }
+            }
+        };
+        return listener;
     }
 
 

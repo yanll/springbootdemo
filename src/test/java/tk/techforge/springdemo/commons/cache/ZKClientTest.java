@@ -1,5 +1,6 @@
 package tk.techforge.springdemo.commons.cache;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.CreateMode;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import tk.Base;
  * @version:
  * @since: 2020/7/15
  */
+@Slf4j
 public class ZKClientTest extends Base {
 
 
@@ -17,8 +19,12 @@ public class ZKClientTest extends Base {
     ZKClient zkClient;
 
     @Test
-    public void testA() {
-        zkClient.crateNode("/node", CreateMode.EPHEMERAL, "234");
+    public void testA() throws Exception {
+        zkClient.registerWatcherTreeChanged("/node");
+        boolean rs = zkClient.crateNode("/node", CreateMode.EPHEMERAL, "123456");
+        log.info("执行结果：" + rs);
+        Thread.sleep(20000);
+        zkClient.close();
     }
 
 }
