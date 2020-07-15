@@ -23,8 +23,15 @@ public class ZKClientTest extends Base {
         zkClient.registerWatcherTreeChanged("/node");
         boolean rs = zkClient.crateNode("/node", CreateMode.EPHEMERAL, "123456");
         log.info("执行结果：" + rs);
+        Thread.sleep(Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void testU() throws Exception {
+        String path = "/node/c";
+        boolean rs = zkClient.updateNodeData(path, "000000");
+        log.info("执行结果：" + rs);
         Thread.sleep(20000);
-        zkClient.close();
     }
 
 }

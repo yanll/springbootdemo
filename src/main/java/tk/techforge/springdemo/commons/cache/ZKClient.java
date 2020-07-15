@@ -46,10 +46,6 @@ public class ZKClient {
         return true;
     }
 
-    public void close() {
-        curatorFramework.close();
-    }
-
     /**
      * 删除节点
      *
