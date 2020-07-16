@@ -1,13 +1,13 @@
 package tk.techforge.springdemo.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.curator.framework.recipes.cache.TreeCacheListener;
-import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.framework.state.ConnectionState;
+import org.apache.curator.framework.state.ConnectionStateListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,31 +38,25 @@ public class ZKConfiguration {
     private int sessionTimeout;
 
 
-    @Bean(name = "curatorFramework")
-    public CuratorFramework curatorFramework() {
-        log.info("Init CuratorFramework");
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(2000, 5);
-        CuratorFramework client = CuratorFrameworkFactory.builder()
-                .connectString(address)
-                .retryPolicy(retryPolicy)
-                .namespace(namespace)
-                .connectionTimeoutMs(connectionTimeout)
-                .sessionTimeoutMs(sessionTimeout)
-                .build();
-        client.start();
-        return client;
-    }
-
-    //    @ConditionalOnBean(value = CuratorFramework.class, name = "zkClient")
-    @Bean(name = "zkClient")
-    public ZKClient zkClient() {
-        log.info("Init ZKClient");
-        return new ZKClient();
+    @Bean(name = "connectionStateListener")
+    public ConnectionStateListener connectionStateListener() {
+        return new ConnectionStateListener() {
+            @Override
+            public void stateChanged(CuratorFramework client, ConnectionState newState) {
+                log.info("ssssssssssssssssssssss   " + newState);
+                if (newState == ConnectionState.LOST) {
+                    log.info("链接丢失！");
+                    while (true) {
+                        ZKClient.init(address, namespace, connectionTimeout, sessionTimeout);
+                    }
+                }
+            }
+        };
     }
 
     @Bean(name = "treeCacheListener")
     public TreeCacheListener treeCacheListener() {
-        TreeCacheListener listener = new TreeCacheListener() {
+        return new TreeCacheListener() {
             @Override
             public void childEvent(CuratorFramework client, TreeCacheEvent event) {
                 try {
@@ -89,7 +83,14 @@ public class ZKConfiguration {
                 }
             }
         };
-        return listener;
+    }
+
+    @Bean
+    public ZKClient zkClient(@Autowired ConnectionStateListener connectionStateListener, TreeCacheListener treeCacheListener) {
+        ZKClient.init(address, namespace, connectionTimeout, sessionTimeout);
+        ZKClient.addConnectionStateListener(connectionStateListener);
+        ZKClient.registerWatcherTreeChanged("/node", treeCacheListener);
+        return new ZKClient();
     }
 
 
