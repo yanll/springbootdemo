@@ -21,7 +21,7 @@ public class InitListener extends org.springframework.web.context.ContextLoaderL
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        ApplicationContext app = WebApplicationContextUtils.getWebApplicationContext(event.getServletContext()); //获取spring上下文！
+        ApplicationContext app = WebApplicationContextUtils.getWebApplicationContext(event.getServletContext());
         Map m = app.getBeansWithAnnotation(RequestMapping.class);
         logger.info("init components!");
 
