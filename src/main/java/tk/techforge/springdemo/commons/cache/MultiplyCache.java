@@ -37,7 +37,7 @@ public class MultiplyCache extends CaffeineCache {
         ValueWrapper wrapper = null;
         if (cacheInstance.isLocal()) {
             wrapper = super.get(key_);
-            log.info("本地查询：{}，{}", key_, UtilJackson.toJSON(wrapper.get()));
+            log.info("本地查询：{}，{}", key_, wrapper == null ? null : UtilJackson.toJSON(wrapper.get()));
         }
         if (cacheInstance.isRemote() && wrapper == null) {
             Object o = redisTemplate.opsForValue().get(key_);
