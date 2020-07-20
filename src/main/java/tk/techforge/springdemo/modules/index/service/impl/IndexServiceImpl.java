@@ -18,12 +18,14 @@ public class IndexServiceImpl implements IndexService {
 
     @Cacheable(value = "/index/{id}", key = "#key")
     public User getIndex(String key) {
+        log.info("数据库查询：" + key);
         return userMapper.selectById(key);
     }
 
     @Override
     @CachePut(value = "/index/{id}", key = "#key")
     public User updateIndex(String key, String m) {
+        log.info("数据库更新：" + key);
         User u = userMapper.selectById(key);
         u.setMobile(m);
         userMapper.updateById(u);

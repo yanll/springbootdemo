@@ -12,7 +12,7 @@ public enum CacheInstance {
 
 
     //首页缓存
-    INDEX("/index/{id}", 5000, 5, 30, true, false),
+    INDEX("/index/{id}", 5000, 5, 30, true, true),
     //用户缓存
     USER("/user/{id}", 5000, 60 * 60 * 2, 60 * 60 * 2, true, true),
     //组织机构有缓存
