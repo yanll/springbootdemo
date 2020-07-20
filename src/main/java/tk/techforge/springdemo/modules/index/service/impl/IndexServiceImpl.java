@@ -16,16 +16,16 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
     UserMapper userMapper;
 
-    @Cacheable(value = "/index/", key = "#key")
+    @Cacheable(value = "/index/{id}", key = "#key")
     public User getIndex(String key) {
         return userMapper.selectById(key);
     }
 
     @Override
-    @CachePut(value = "/index/", key = "#key")
-    public User updateIndex(String key) {
+    @CachePut(value = "/index/{id}", key = "#key")
+    public User updateIndex(String key, String m) {
         User u = userMapper.selectById(key);
-        u.setMobile("13888888888");
+        u.setMobile(m);
         userMapper.updateById(u);
         return u;
     }

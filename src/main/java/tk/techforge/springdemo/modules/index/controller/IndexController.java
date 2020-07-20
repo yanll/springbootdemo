@@ -13,7 +13,7 @@ import tk.techforge.springdemo.modules.index.service.IndexService;
  */
 
 @RestController
-@RequestMapping
+@RequestMapping("/index")
 @Slf4j
 public class IndexController {
 
@@ -26,8 +26,8 @@ public class IndexController {
     }
 
     @GetMapping(value = "/update")
-    public ResponseMsg updateIndex(String k) {
-        return ResponseMsg.data(indexService.updateIndex(k));
+    public ResponseMsg updateIndex(String k, String m) {
+        return ResponseMsg.data(indexService.updateIndex(k, m));
     }
 
 }

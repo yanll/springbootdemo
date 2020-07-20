@@ -5,7 +5,6 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 
 @Data
@@ -14,7 +13,6 @@ public class ResponseMsg<T> implements Serializable {
 
     private final int code;
     private String message;
-    private LocalDateTime timestamp;
     private T data;
 
 
