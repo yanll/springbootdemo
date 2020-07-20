@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
  * @since: 2020/7/16
  */
 @Slf4j
-//@Service
 public class MultiplyCache extends CaffeineCache {
 
     private static final String NAMESPACE = "/caffeine-test";
