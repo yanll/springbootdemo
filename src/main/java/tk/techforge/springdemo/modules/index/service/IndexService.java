@@ -1,13 +1,12 @@
 package tk.techforge.springdemo.modules.index.service;
 
-import tk.techforge.springdemo.modules.index.bean.HomeVO;
+import tk.techforge.springdemo.modules.user.bean.User;
 
 public interface IndexService {
 
-    public HomeVO getV(String key);
 
-    public String getIndex(String key);
+    public User getIndex(String key);
 
-    public String updateIndex(String key);
+    public User updateIndex(String key);
 
 }

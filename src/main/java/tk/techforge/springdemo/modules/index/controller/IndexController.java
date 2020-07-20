@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tk.techforge.springdemo.modules.index.bean.HomeVO;
+import tk.techforge.springdemo.commons.ResponseMsg;
 import tk.techforge.springdemo.modules.index.service.IndexService;
 
 /**
@@ -20,21 +20,14 @@ public class IndexController {
     @Autowired
     IndexService indexService;
 
-    @GetMapping(value = "/v")
-    public HomeVO v(String k) {
-        System.out.println();
-        return indexService.getV(k);
-    }
-
     @GetMapping(value = "/get")
-    public String getIndex(String k) {
-        System.out.println();
-        return indexService.getIndex(k);
+    public ResponseMsg getIndex(String k) {
+        return ResponseMsg.data(indexService.getIndex(k));
     }
 
     @GetMapping(value = "/update")
-    public String updateIndex(String k) {
-        return indexService.updateIndex(k);
+    public ResponseMsg updateIndex(String k) {
+        return ResponseMsg.data(indexService.updateIndex(k));
     }
 
 }
