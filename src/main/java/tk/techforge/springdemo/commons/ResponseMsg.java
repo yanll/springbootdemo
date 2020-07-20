@@ -1,34 +1,45 @@
 package tk.techforge.springdemo.commons;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
-@Setter
-@Getter
-public class ResponseMsg<T> extends ResponseEntity<T> implements Serializable {
+@Data
+@Builder
+public class ResponseMsg<T> implements Serializable {
 
-    private String message = "";
+    private final int code;
+    private String message;
+    private LocalDateTime timestamp;
+    private T data;
 
-    public ResponseMsg(HttpStatus status) {
-        super(status);
+
+    public static ResponseMsg ok() {
+        return ResponseMsg.builder().code(HttpStatus.OK.value()).build();
     }
 
-    public ResponseMsg(HttpStatus status, String message) {
-        super(status);
-        this.message = message;
+    public static ResponseMsg ok(String message) {
+        return ResponseMsg.builder().code(HttpStatus.OK.value()).message(message).build();
     }
 
-    public ResponseMsg(HttpStatus status, T data) {
-        super(data, status);
+    public static <T> ResponseMsg ok(String message, T data) {
+        return ResponseMsg.builder().code(HttpStatus.OK.value()).message(message).data(data).build();
     }
 
-    public ResponseMsg(HttpStatus status, String message, T data) {
-        super(data, status);
-        this.message = message;
+    public static <T> ResponseMsg data(T data) {
+        return ResponseMsg.builder().code(HttpStatus.OK.value()).data(data).build();
     }
+
+    public static ResponseMsg badRequest(String message) {
+        return ResponseMsg.builder().code(HttpStatus.BAD_REQUEST.value()).message(message).build();
+    }
+
+    public static ResponseMsg internalServerError(String message) {
+        return ResponseMsg.builder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(message).build();
+    }
+
 }

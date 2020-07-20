@@ -56,32 +56,32 @@ public class ${table.controllerName} {
     @PostMapping("/add")
     public ResponseMsg add(@RequestBody ${entity} ${entityInstance}) {
         boolean result = ${serviceInstanceName}.save(${entityInstance});
-        return new ResponseMsg(HttpStatus.OK, "添加成功！", result);
+        return ResponseMsg.ok("添加成功！", result);
     }
 
     @PutMapping("/update")
     public ResponseMsg modify(@RequestBody ${entity} ${entityInstance}) {
         boolean result = ${serviceInstanceName}.save(${entityInstance});
-        return new ResponseMsg(HttpStatus.OK, "更新成功！", result);
+        return ResponseMsg.ok("更新成功！", result);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseMsg delete(@PathVariable("id") Serializable id) {
         boolean result = ${serviceInstanceName}.removeById(id);
-        return new ResponseMsg(HttpStatus.OK, "删除成功！", result);
+        return ResponseMsg.ok("删除成功！", result);
     }
 
     @GetMapping("/get")
     public ResponseMsg get(@PathVariable("id") Serializable id) {
         ${entity} ${entityInstance} = ${serviceInstanceName}.getById(id);
-        return new ResponseMsg(HttpStatus.OK, ${entityInstance});
+        return ResponseMsg.data(${entityInstance});
     }
 
     @GetMapping("/page")
     public ResponseMsg page(Long page, Long limit) {
         LambdaQueryWrapper<${entity}> wrapper = new LambdaQueryWrapper();
         IPage<${entity}> result = ${serviceInstanceName}.page(PaginationUtil.toPage(page, limit), wrapper);
-        return new ResponseMsg(HttpStatus.OK, result);
+        return ResponseMsg.data(result);
     }
 
 }
