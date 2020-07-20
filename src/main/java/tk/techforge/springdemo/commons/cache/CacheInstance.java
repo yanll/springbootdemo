@@ -12,11 +12,11 @@ public enum CacheInstance {
 
 
     //首页缓存
-    INDEX("/index/", 5000, 5, 30, true, true),
+    INDEX("/index/{id}", 5000, 5, 30, true, true),
     //用户缓存
-    USER("/user/", 5000, 60 * 60 * 2, 60 * 60 * 2, true, true),
+    USER("/user/{id}", 5000, 60 * 60 * 2, 60 * 60 * 2, true, true),
     //组织机构有缓存
-    ORGANIZATION("/organization/", 5000, 60 * 60 * 2, 60 * 60 * 2, true, true);
+    ORGANIZATION("/organization/{id}", 5000, 60 * 60 * 2, 60 * 60 * 2, true, true);
 
     private String cacheName;
 

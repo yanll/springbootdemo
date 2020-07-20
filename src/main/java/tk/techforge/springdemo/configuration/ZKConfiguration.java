@@ -43,7 +43,7 @@ public class ZKConfiguration {
         return new ConnectionStateListener() {
             @Override
             public void stateChanged(CuratorFramework client, ConnectionState newState) {
-                log.info("ssssssssssssssssssssss   " + newState);
+                log.info("监听ZK连接状态：" + newState);
                 if (newState == ConnectionState.LOST) {
                     log.info("链接丢失！");
                     while (true) {
@@ -56,6 +56,7 @@ public class ZKConfiguration {
 
     @Bean(name = "treeCacheListener")
     public TreeCacheListener treeCacheListener() {
+        log.info("初始化树节点监听器！");
         return new TreeCacheListener() {
             @Override
             public void childEvent(CuratorFramework client, TreeCacheEvent event) {
