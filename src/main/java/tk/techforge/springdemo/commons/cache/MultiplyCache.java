@@ -34,19 +34,24 @@ public class MultiplyCache extends CaffeineCache {
     @Override
     public ValueWrapper get(Object key) {
         String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
-        ValueWrapper wrapper = super.get(key_);
-        if (wrapper == null) {
+        ValueWrapper wrapper = null;
+        if (cacheInstance.isLocal()) {
+            wrapper = super.get(key_);
+            log.info("本地查询：{}，{}", key_, UtilJackson.toJSON(wrapper.get()));
+        }
+        if (cacheInstance.isRemote() && wrapper == null) {
             Object o = redisTemplate.opsForValue().get(key_);
             log.info("远程查询：{}，{}", key_, UtilJackson.toJSON(o));
             if (o == null) {
                 log.info("远程为空：" + key_);
                 return null;
             } else {
-                super.put(key_, o);
+                if (cacheInstance.isLocal()) {
+                    super.put(key_, o);
+                }
                 return new SimpleValueWrapper(o);
             }
         }
-        log.info("本地查询：{}，{}", key_, UtilJackson.toJSON(wrapper.get()));
         return wrapper;
     }
 
@@ -69,10 +74,14 @@ public class MultiplyCache extends CaffeineCache {
     @Override
     public void put(Object key, Object value) {
         String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
-        log.info("本地存储：{}，{}", key_, UtilJackson.toJSON(value));
-        super.put(key_, value);
-        log.info("远程存储：{}，{}", key_, UtilJackson.toJSON(value));
-        redisTemplate.opsForValue().set(key_, value, cacheInstance.getRemoteExpire(), TimeUnit.SECONDS);
+        if (cacheInstance.isLocal()) {
+            log.info("本地存储：{}，{}", key_, UtilJackson.toJSON(value));
+            super.put(key_, value);
+        }
+        if (cacheInstance.isRemote()) {
+            log.info("远程存储：{}，{}", key_, UtilJackson.toJSON(value));
+            redisTemplate.opsForValue().set(key_, value, cacheInstance.getRemoteExpire(), TimeUnit.SECONDS);
+        }
     }
 
     @Override
