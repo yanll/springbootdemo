@@ -38,13 +38,13 @@ public class MultiplyCache extends CaffeineCache {
         ValueWrapper wrapper = null;
         if (cacheInstance.isLocal()) {
             wrapper = super.get(key_);
-            log.info("本地查询：{}，{}", key_, wrapper == null ? null : UtilJackson.toJSON(wrapper.get()));
+            log.info("MultiplyCache 本地查询：{}", key_);
         }
         if (cacheInstance.isRemote() && wrapper == null) {
             Object o = redisTemplate.opsForValue().get(key_);
-            log.info("远程查询：{}，{}", key_, UtilJackson.toJSON(o));
+            log.info("MultiplyCache 远程查询：{}", key_);
             if (o == null) {
-                log.info("远程为空：" + key_);
+                log.info("MultiplyCache 远程为空：" + key_);
                 return null;
             } else {
                 if (cacheInstance.isLocal()) {
@@ -76,11 +76,11 @@ public class MultiplyCache extends CaffeineCache {
     public void put(Object key, Object value) {
         String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
         if (cacheInstance.isLocal()) {
-            log.info("本地存储：{}，{}", key_, UtilJackson.toJSON(value));
+            log.info("MultiplyCache 本地存储：{}", key_);
             super.put(key_, value);
         }
         if (cacheInstance.isRemote()) {
-            log.info("远程存储：{}，{}", key_, UtilJackson.toJSON(value));
+            log.info("MultiplyCache 远程存储：{}", key_);
             redisTemplate.opsForValue().set(key_, value, cacheInstance.getRemoteExpire(), TimeUnit.SECONDS);
         }
     }
@@ -95,10 +95,15 @@ public class MultiplyCache extends CaffeineCache {
 
     @Override
     public void evict(Object key) {
-        if (true) {
-            throw new UnsupportedOperationException("接口未实现！");
+        String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
+        if (cacheInstance.isLocal()) {
+            log.info("MultiplyCache 本地清除：{}", key_);
+            super.evict(key);
         }
-        super.evict(key);
+        if (cacheInstance.isRemote()) {
+            log.info("MultiplyCache 远程清除：{}", key_);
+            redisTemplate.delete(key_);
+        }
     }
 
     @Override
