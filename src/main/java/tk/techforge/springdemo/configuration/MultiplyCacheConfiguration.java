@@ -34,7 +34,7 @@ public class MultiplyCacheConfiguration {
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         List<Cache> caches = new ArrayList<>();
-        for (CacheKey cacheInstance : CacheKey.values()) {
+        for (CacheKey.CacheInstance cacheInstance : CacheKey.CacheInstance.values()) {
             caches.add(new MultiplyCache(redisTemplate, cacheInstance,
                     Caffeine.newBuilder()
                             .maximumSize(cacheInstance.getMaximumSize())
