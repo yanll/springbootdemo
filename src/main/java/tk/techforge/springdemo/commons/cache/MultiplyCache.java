@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
+import tk.techforge.springdemo.commons.cache.CacheKey.CacheInstance;
 import tk.techforge.springdemo.utils.UtilJackson;
 
 import java.util.concurrent.Callable;
