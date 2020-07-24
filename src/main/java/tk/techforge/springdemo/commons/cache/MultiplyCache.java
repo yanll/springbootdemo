@@ -5,8 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.StopWatch;
 import tk.techforge.springdemo.commons.cache.CacheKey.CacheInstance;
-import tk.techforge.springdemo.utils.UtilJackson;
+import tk.techforge.springdemo.utils.StopWatchPrinter;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MultiplyCache extends CaffeineCache {
 
-    private static final String NAMESPACE = "/caffeine-test";
 
     private RedisTemplate redisTemplate;
 
@@ -34,21 +34,28 @@ public class MultiplyCache extends CaffeineCache {
 
     @Override
     public ValueWrapper get(Object key) {
-        String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
+        StopWatch clock = new StopWatch();
+        String key_ = cacheInstance.getCacheName() + key;
         ValueWrapper wrapper = null;
         if (cacheInstance.isLocal()) {
+            clock.start("MultiplyCache_Local_Get:" + key_);
             wrapper = super.get(key_);
-            log.info("MultiplyCache 本地查询：{}", key_);
+            clock.stop();
+            StopWatchPrinter.printLastTask(clock);
         }
         if (cacheInstance.isRemote() && wrapper == null) {
+            clock.start("MultiplyCache_Remote_Get:" + key_);
             Object o = redisTemplate.opsForValue().get(key_);
-            log.info("MultiplyCache 远程查询：{}", key_);
+            clock.stop();
+            StopWatchPrinter.printLastTask(clock);
             if (o == null) {
-                log.info("MultiplyCache 远程为空：" + key_);
                 return null;
             } else {
                 if (cacheInstance.isLocal()) {
+                    clock.start("MultiplyCache_Local_Put:" + key_);
                     super.put(key_, o);
+                    clock.stop();
+                    StopWatchPrinter.printLastTask(clock);
                 }
                 return new SimpleValueWrapper(o);
             }
@@ -74,15 +81,19 @@ public class MultiplyCache extends CaffeineCache {
 
     @Override
     public void put(Object key, Object value) {
-        String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
+        StopWatch clock = new StopWatch();
+        String key_ = cacheInstance.getCacheName() + key;
         if (cacheInstance.isLocal()) {
-            log.info("MultiplyCache 本地存储：{}", key_);
+            clock.start("MultiplyCache_Local_Put:" + key_);
             super.put(key_, value);
+            clock.stop();
         }
         if (cacheInstance.isRemote()) {
-            log.info("MultiplyCache 远程存储：{}", key_);
+            clock.start("MultiplyCache_Remote_Put:" + key_);
             redisTemplate.opsForValue().set(key_, value, cacheInstance.getRemoteExpire(), TimeUnit.SECONDS);
+            clock.stop();
         }
+        StopWatchPrinter.print(clock);
     }
 
     @Override
@@ -95,7 +106,7 @@ public class MultiplyCache extends CaffeineCache {
 
     @Override
     public void evict(Object key) {
-        String key_ = NAMESPACE + cacheInstance.getCacheName() + key;
+        String key_ = cacheInstance.getCacheName() + key;
         if (cacheInstance.isLocal()) {
             log.info("MultiplyCache 本地清除：{}", key_);
             super.evict(key);

@@ -9,16 +9,18 @@ import lombok.Getter;
  */
 public class CacheKey {
 
+    private static final String NAMESPACE = "/caffeine-test";
+
     public class Key {
-        public static final String INDEX = "/index/{id}";
-        public static final String USER = "/user/{id}";
-        public static final String ORGANIZATION = "/organization/{id}";
+        public static final String INDEX = NAMESPACE + "/index/{id}";
+        public static final String USER = NAMESPACE + "/user/{id}";
+        public static final String ORGANIZATION = NAMESPACE + "/organization/{id}";
     }
 
     @Getter
     public enum CacheInstance {
         //首页缓存
-        INDEX(Key.INDEX, 5000, 5, 30, true, true),
+        INDEX(Key.INDEX, 5000, 5, 60, true, true),
         //用户缓存
         USER(Key.USER, 5000, 60 * 60 * 2, 60 * 60 * 2, true, true),
         //组织机构有缓存
