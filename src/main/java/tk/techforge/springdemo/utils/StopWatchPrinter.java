@@ -45,7 +45,7 @@ public class StopWatchPrinter {
             log.info("ExecuteTime_I:{},{} ms", watch.getLastTaskName(), time);
             return;
         }
-        if (time > 20) {
+        if (time > 50) {
             log.info("ExecuteTime:{},{} ms", watch.getLastTaskName(), time);
             return;
         }
